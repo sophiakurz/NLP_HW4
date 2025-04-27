@@ -1,0 +1,11 @@
+torch>=2.1
+torch_geometric>=2.4
+transformers>=4.39
+sentencepiece       # roberta tokenizer 依赖
+vadersentiment
+tqdm
+numpy 
+pandas 
+scikit-learn 
+networkx 
+pyvis

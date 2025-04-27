@@ -1,0 +1,38 @@
+# ==== 路径 ====
+raw_dir:  /ocean/projects/cis240109p/ywu22/twitter15
+work_dir: /ocean/projects/cis240109p/ywu22/NLP_Assignment3/fake_news_gnn/work/twitter15
+graph_pt: /ocean/projects/cis240109p/ywu22/NLP_Assignment3/fake_news_gnn/work/twitter15/hetero_graph.pt
+edge_k: 5        # 每棵树最多 20 条 TD，噪声不会太大
+keep_bu: true
+# ==== 嵌入器 ====
+embed:
+  model: sentence-transformers/all-MiniLM-L6-v2   # 文本向量 768 维
+  max_len: 100
+
+# ==== GNN 模型超参 ====
+model:
+  in_dim: 769        # 768(文本) + 1(情感) —— build_graph 会自动检测，写在这方便复用
+  hid:    256        # 隐层
+  heads:  4
+  layers: 3          # multi‑head 注意力数
+  num_cls: 4         # twitter15 标签数
+
+# ==== GraphCL 预训练 ====
+graphcl:
+  epochs:   50      # 预训练总轮数，从 50 → 100
+  lr:       1e-3
+  batch:    512      # batch_size 从 4096 → 512
+  tau:      0.1      # 温度从 0.2 → 0.1（或者试 0.3）
+  edge_drop: 0.5     # 边丢弃强度从 0.7 → 0.5
+  feat_drop: 0.3 
+# ==== 有监督 k‑fold 微调 ====
+supervised:
+  k_folds:    5
+  epochs:     100
+  lr:         3e-4
+  early_stop: 20
+  class_weight: true
+
+# ==== 其它 ====
+seed:   88
+device: cuda         # 无 GPU 写 cpu
