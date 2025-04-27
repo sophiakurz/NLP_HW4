@@ -1,4 +1,4 @@
-# Text Ensemble Method
+# Text-Graph Ensemble Method
 
 How to Run:
 
